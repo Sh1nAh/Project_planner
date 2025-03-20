@@ -3,11 +3,13 @@
 //   transpileDependencies: true
 // })
 
-// 
 const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: process.env.NODE_ENV === 'production' ? '/Project_planner/' : '/'
-})
 
+  // Set the publicPath to match your GitHub repository name
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/Project_planner/'  // Ensure this is the correct repo name
+    : '/'
+})
