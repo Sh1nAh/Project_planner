@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import { db } from '../firebase/config'
+
 import FilterNav from '../components/FilterNav'
 import SingleProject from '../components/SingleProject'
 
@@ -51,15 +53,29 @@ export default {
       return this.projects
     }
   },
+  // mounted() {
+  //   fetch('http://localhost:3000/projects')
+  //   .then((response)=> {
+  //     return response.json()
+  //   })
+  //   .then((datas)=> {
+  //     this.projects = datas   
+  //   })
+  //   .catch(()=> {
+  //   })
+  // }
+
   mounted() {
-    fetch('http://localhost:3000/projects')
-    .then((response)=> {
-      return response.json()
-    })
-    .then((datas)=> {
-      this.projects = datas   
-    })
-    .catch(()=> {
+    db.collection('projects')
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(snapshot => {
+      let results = []
+      snapshot.forEach(doc => {
+        results.push({ ...doc.data(), id: doc.id })
+      })
+      this.projects = results
+    }, err => {
+      console.log('Snapshot error:', err)
     })
   }
 }

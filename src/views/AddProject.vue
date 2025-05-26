@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { db, timestamp } from '../firebase/config'
+
 export default {
     data() {
         return {
@@ -17,26 +19,43 @@ export default {
         }
     },
     methods: {
-        addProject() {
-            fetch('http://localhost:3000/projects', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    title: this.title,
-                    detail: this.detail,
-                    complete: false
-                })
-            })
-            .then(() => {
-                this.$router.push('/')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
+    //     addProject() {
+    //         fetch('http://localhost:3000/projects', {
+    //             method: 'POST',
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({
+    //                 title: this.title,
+    //                 detail: this.detail,
+    //                 complete: false
+    //             })
+    //         })
+    //         .then(() => {
+    //             this.$router.push('/')
+    //         })
+    //         .catch((err) => {
+    //             console.log(err)
+    //         })
+    //     }
+    // }
+
+    addProject() {
+        db.collection('projects')
+        .add({
+            title: this.title,
+            detail: this.detail,
+            complete: false,
+            createdAt: timestamp()
+        })
+        .then(() => {
+            this.$router.push('/')
+        })
+        .catch(err => {
+            console.error(err)
+        })
     }
+  }
 }
 </script>
 

@@ -20,40 +20,63 @@
 </template>
 
 <script>
+import { db } from '../firebase/config'
+
 export default {
     props: ['project'],
     data() {
         return {
             showDetail: false,
-            api: 'http://localhost:3000/projects'
+            // api: 'http://localhost:3000/projects'
         }
     },
     methods: {
+        // deleteProject() {
+        //     let deleteRoute = this.api + '/' + this.project.id;
+        //     fetch(deleteRoute, {method: "DELETE"})
+        //     .then(()=> {
+        //         this.$emit("delete", this.project.id)
+        //     })
+        //     .catch((err)=> {
+        //         console.log(err)
+        //     })
+        // },
+        // completeProject() {
+        //     let updateCompleteRoute = this.api + '/' + this.project.id;
+        //     fetch(updateCompleteRoute, {
+        //         method: "PATCH",
+        //         headers: {
+        //             "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify({
+        //             complete: !this.project.complete
+        //         })
+        //     })
+        //     .then(()=> {
+        //         this.$emit("complete", this.project.id)
+        //     })
+        //     .catch((err)=> {
+        //         console.log(err)
+        //     })
+        // },
+
         deleteProject() {
-            let deleteRoute = this.api + '/' + this.project.id;
-            fetch(deleteRoute, {method: "DELETE"})
-            .then(()=> {
-                this.$emit("delete", this.project.id)
+        db.collection('projects').doc(this.project.id).delete()
+            .then(() => {
+            this.$emit('delete', this.project.id)
             })
-            .catch((err)=> {
-                console.log(err)
+            .catch(err => {
+            console.log(err)
             })
         },
         completeProject() {
-            let updateCompleteRoute = this.api + '/' + this.project.id;
-            fetch(updateCompleteRoute, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    complete: !this.project.complete
-                })
+            db.collection('projects').doc(this.project.id).update({
+                complete: !this.project.complete
             })
-            .then(()=> {
-                this.$emit("complete", this.project.id)
+            .then(() => {
+                this.$emit('complete', this.project.id)
             })
-            .catch((err)=> {
+            .catch(err => {
                 console.log(err)
             })
         }
