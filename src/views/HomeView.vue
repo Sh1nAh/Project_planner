@@ -9,7 +9,6 @@
 
 <script>
 import { db } from '../firebase/config'
-
 import FilterNav from '../components/FilterNav'
 import SingleProject from '../components/SingleProject'
 

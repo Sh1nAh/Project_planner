@@ -122,7 +122,7 @@ export default {
     .complete {
         border-left-color: #00ce89;
     }
-    .completeicon {
+    .completeicon , .completeicon:hover {
         color: #00ce89;
     }
 </style>
